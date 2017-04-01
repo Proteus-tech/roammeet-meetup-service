@@ -13,8 +13,8 @@ before_install:
 - ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file proteus-hackathon-1ba55bc49259.json
 - git clone https://github.com/Proteus-tech/roammeet-dev.git
 install:
-- gcloud config set project python-hackathon
+- ./google-cloud-sdk/bin/gcloud config set project python-hackathon
 script:
 - cd ./roammeet-dev/elixir-docker
 - docker build -t asia.gcr.io/python-hackathon/roammeet-meetup-service .
-- gcloud docker -- push asia.gcr.io/python-hackathon/roammeet-meetup-service
+- ./google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/python-hackathon/roammeet-meetup-service
