@@ -11,8 +11,10 @@ before_install:
 - ./google-cloud-sdk/install.sh --quiet
 - tar -xzf credentials.tar.gz
 - ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file proteus-hackathon-1ba55bc49259.json
+- git clone git@github.com:Proteus-tech/roammeet-dev.git
 install:
-- gcloud config set project continuous-deployment-python
-- pip install -r requirements.txt -t lib/
+- gcloud config set project python-hackathon
 script:
-- gcloud -q preview app deploy app.yaml --promote
+- cd ./roammeet-dev/elixir-docker
+- docker build -t asia.gcr.io/python-hackathon/roammeet-meetup-service .
+- gcloud docker -- push asia.gcr.io/python-hackathon/roammeet-meetup-service
