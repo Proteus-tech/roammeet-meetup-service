@@ -3,33 +3,17 @@ defmodule Meetup do
   Documentation for Meetup.
   """
 
-  @doc """
-  Hello world.
+  use Application
 
-  ## Examples
-
-      iex> Meetup.hello
-      :world
-
-  """
   def start(_type, _args) do
-    { :ok, _ } = :cowboy.start_http(
-      :http,
-      100,
-      [port: 8009],
-      [env: [
-          dispatch: routes()
-        ]
-      ]
-    )
-  end
+    import Supervisor.Spec, warn: false
 
-  def routes do
-    :cowboy_router.compile([
-      { :_,
-        [
-          {"/hello", Meetup.Hello, []},
-      ]}
-    ])
-  end
+    children = [
+      supervisor(Meetup.Repo, [], restart: :transient),
+      worker(Meetup.HTTP, [], restart: :transient)
+    ]
+
+    opts = [strategy: :one_for_one, name: Meetup.Supervisor]
+    Supervisor.start_link(children, opts)
+   end
 end

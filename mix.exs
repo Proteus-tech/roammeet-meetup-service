@@ -17,9 +17,9 @@ defmodule Meetup.Mixfile do
     # Specify extra applications you'll use from Erlang/Elixir
     [
       mod: { Meetup, [] },
-      extra_applications: [:logger, :cowboy],
+      extra_applications: [:logger, :cowboy, :ecto, :postgrex],
     ]
-    
+
   end
 
   # Dependencies can be Hex packages:
@@ -32,6 +32,10 @@ defmodule Meetup.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [ {:cowboy, "~> 1.1"},]
+    [
+      {:cowboy, "~> 1.1"},
+      {:ecto, "~> 2.1"},
+      {:postgrex, "~> 0.13.2"}
+    ]
   end
 end
