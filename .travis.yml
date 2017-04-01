@@ -9,12 +9,10 @@ before_install:
 - wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-149.0.0-linux-x86_64.tar.gz
 - tar -xzf google-cloud-sdk-149.0.0-linux-x86_64.tar.gz
 - ./google-cloud-sdk/install.sh --quiet
-- ./google-cloud-sdk/bin/gcloud init --console-only
 - tar -xzf credentials.tar.gz
 - gcloud auth activate-service-account --key-file proteus-hackathon-1ba55bc49259.json
 install:
 - gcloud config set project continuous-deployment-python
-- gcloud -q components update gae-python
 - pip install -r requirements.txt -t lib/
 script:
 - gcloud -q preview app deploy app.yaml --promote
