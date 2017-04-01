@@ -25,7 +25,6 @@ defmodule Meetup.Meetup do
   end
 
   def get_handle(req, state) do
-
     meetup = MeetupSchema
       |> select([m], %{
         "id" => m.id,
@@ -58,23 +57,25 @@ defmodule Meetup.Meetup do
           start_time: Map.get(body, :start_time)
         }
         Repo.insert!(meetup)
-        { :ok, req } = :cowboy_req.reply 200, [], Poison.encode!(body), req
-        { :ok, req, state }
+        status_code = 200
+        data = Poison.encode!(body)
       else
-        { :ok, req } = :cowboy_req.reply 400, [], Poison.encode!(mf), req
-        { :ok, req, state }
+        status_code = 400
+        data = Poison.encode!(mf)
       end
     else
-      { :ok, req } = :cowboy_req.reply 400, [], "-*-", req
-      { :ok, req, state }
+      status_code = 400
+      data = "No body."
     end
+    { :ok, req } = :cowboy_req.reply status_code, [], data, req
+    { :ok, req, state }
   end
 
   def miss_fieldes(require_field, keys_body) do
     Enum.filter(require_field, fn(f) -> not Enum.member?(keys_body, f) end)
   end
 
-  def terminate( reason, request, state) do
+  def terminate(_reason, _request, _state) do
     :ok
   end
 end
