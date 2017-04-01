@@ -20,6 +20,7 @@ defmodule Meetup.HTTP do
       { :_,
         [
           {"/hello", Meetup.Hello, []},
+          {"/meetup", Meetup.Meetup, []},
           {:_, Meetup.HTTP.NotFoundHandler, []},
         ]
       }

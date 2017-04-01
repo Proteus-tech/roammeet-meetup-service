@@ -35,6 +35,7 @@ defmodule Meetup.Mixfile do
     [
       {:cowboy, "~> 1.1"},
       {:ecto, "~> 2.1"},
+      {:poison, "~> 3.1"},
       {:postgrex, "~> 0.13.2"}
     ]
   end
