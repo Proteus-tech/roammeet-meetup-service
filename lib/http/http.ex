@@ -21,6 +21,7 @@ defmodule Meetup.HTTP do
         [
           {"/hello", Meetup.Hello, []},
           {"/meetup", Meetup.Meetup, []},
+          {"/meetup-detail/:id", Meetup.MeetupDetail, []},
           {:_, Meetup.HTTP.NotFoundHandler, []},
         ]
       }
