@@ -1,5 +1,7 @@
 sudo: false
 language: elixir
+services:
+  - docker
 cache:
   directories:
   - "$HOME/google-cloud-sdk/"
