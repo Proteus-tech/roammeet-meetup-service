@@ -1,4 +1,4 @@
-defmodule MeetupSchema do
+defmodule Meetup.MeetupSchema do
   use Ecto.Schema
 
   # meetup is the DB table
