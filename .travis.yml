@@ -11,14 +11,13 @@ before_install:
 - wget https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-149.0.0-linux-x86_64.tar.gz
 - tar -xzf google-cloud-sdk-149.0.0-linux-x86_64.tar.gz
 - ./google-cloud-sdk/install.sh --quiet
-- source ./google-cloud-sdk/path.bash.inc
 - tar -xzf credentials.tar.gz
-- gcloud auth activate-service-account --key-file proteus-hackathon-1ba55bc49259.json
+- ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file proteus-hackathon-1ba55bc49259.json
 - git clone https://github.com/Proteus-tech/roammeet-dev.git
 install:
-- gcloud config set project python-hackathon
+- ./google-cloud-sdk/bin/gcloud config set project python-hackathon
 script:
 - cd ./roammeet-dev/elixir-docker
 - docker build -t asia.gcr.io/python-hackathon/roammeet-meetup-service .
 after_success:
-- gcloud docker -- push asia.gcr.io/python-hackathon/roammeet-meetup-service
+- ./google-cloud-sdk/bin/gcloud docker -- push asia.gcr.io/python-hackathon/roammeet-meetup-service
