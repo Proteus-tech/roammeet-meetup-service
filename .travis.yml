@@ -20,4 +20,5 @@ install:
 script:
 - cd ./roammeet-dev/elixir-docker
 - docker build -t asia.gcr.io/python-hackathon/roammeet-meetup-service .
+after_success:
 - gcloud docker -- push asia.gcr.io/python-hackathon/roammeet-meetup-service
