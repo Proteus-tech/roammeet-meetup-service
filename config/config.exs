@@ -36,5 +36,5 @@ config :meetup, Meetup.Repo,
   database: "postgres",
   username: "postgres",
   password: "123456",
-  hostname: "postgres",
+  hostname: "roammeet-postgres-service",
   port: 5432
