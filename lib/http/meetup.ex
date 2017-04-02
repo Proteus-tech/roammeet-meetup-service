@@ -3,7 +3,7 @@ defmodule Meetup.HTTP.Meetup do
   import Ecto.Query
 
   alias Meetup.Repo, as: Repo
-  alias Meetup.MeetupSchema, as: MeetupSchema
+  alias Meetup.Schema.Meetup, as: MeetupSchema
 
   def init({ _any, :http }, req, []) do
     { :ok, req, :undefined }
