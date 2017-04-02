@@ -28,6 +28,8 @@ defmodule Meetup.HTTP.MeetupInvites do
     # meetup = %MeetupSchema{name: "Ben", description: "555", start_date: Ecto.Date.cast!("2015-05-12"), start_time: "500"}
     # Repo.insert!(meetup)
     { id, _ } = :cowboy_req.binding(:id, req)
+        |> elem(0)
+        |> Integer.parse
     { :ok, body, req } = :cowboy_req.body_qs(req)
     if body !== [] do
       body = body |> List.first |> elem 0
