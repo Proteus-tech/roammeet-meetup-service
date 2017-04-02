@@ -1,4 +1,4 @@
-defmodule Meetup.MeetupDetail do
+defmodule Meetup.HTTP.MeetupDetail do
   @behaviour :cowboy_http_handler
   import Ecto.Query
 
