@@ -15,10 +15,10 @@ end
 defmodule Meetup.InvitationSchema do
   use Ecto.Schema
 
-  # meetup is the DB table
+  # invitation is the DB table
   schema "invitation" do
-    field :people, :string
-    field :meetup, :integer
+    field :people_id, :integer
+    field :meetup_id, :integer
     field :status, :boolean
 
     timestamps()

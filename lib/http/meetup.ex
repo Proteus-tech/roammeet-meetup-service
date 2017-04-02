@@ -12,8 +12,6 @@ defmodule Meetup.HTTP.Meetup do
   def handle(req, state) do
     { method, _ } = :cowboy_req.method req
     IO.puts method
-    { path, _ } = :cowboy_req.path req
-    IO.puts path
     # IO.inspect map_data
     case method do
       "GET" ->
