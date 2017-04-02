@@ -17,12 +17,12 @@ defmodule Meetup.Schema.Invitation do
   use Ecto.Schema
 
   # invitation is the DB table
-  @derive {Poison.Encoder, only: [:id, :people_id, :meetup_id, :status, :meetups]}
+  @derive {Poison.Encoder, only: [:id, :people_id, :meetup_id, :status, :meetup]}
   schema "invitation" do
     field :people_id, :integer
     field :meetup_id, :integer
     field :status, :boolean
-    belongs_to :meetups, Meetup.Schema.Meetup
+    belongs_to :meetup, Meetup.Schema.Meetup, define_field: false
     timestamps()
   end
 end

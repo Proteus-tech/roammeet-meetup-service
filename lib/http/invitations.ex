@@ -26,12 +26,19 @@ defmodule Meetup.HTTP.Invitations do
   end
 
   def get_handle(req, state) do
-    meetup = Repo.all(from u in MeetupSchema, select: u)
-    meetup = Repo.preload meetup, invitations: from(i in InvitationSchema, select: %{
-      "people_id" => i.people_id,
-      "status" => i.status
-      })
-    { :ok, req } = :cowboy_req.reply 200, [], Poison.encode!(meetup), req
+    { id, _ } = :cowboy_req.binding(:id, req)
+    query = from i in InvitationSchema, where: i.people_id == ^id
+    invitations = query
+      |> Repo.all
+      |> Repo.preload meetup: from(m in MeetupSchema, select: %{
+          "id" => m.id,
+          "name" => m.name,
+          "description" => m.description,
+          "start_date" => m.start_date(),
+          "start_time" => m.start_time
+        }
+      )
+    { :ok, req } = :cowboy_req.reply 200, [], Poison.encode!(invitations), req
     { :ok, req, state }
   end
 
