@@ -3,8 +3,8 @@ defmodule Meetup.HTTP.Invitations do
   import Ecto.Query, only: [from: 2]
 
   alias Meetup.Repo, as: Repo
-  alias Meetup.Meetup, as: MeetupMeetup
-    alias Meetup.Invitation, as: Invitation
+  alias Meetup.Schema.Meetup, as: MeetupSchema
+  alias Meetup.Schema.Invitation, as: InvitationSchema
 
   def init({ _any, :http }, req, []) do
     { :ok, req, :undefined }
@@ -26,15 +26,11 @@ defmodule Meetup.HTTP.Invitations do
   end
 
   def get_handle(req, state) do
-    meetup = Repo.all(from u in MeetupMeetup, select: u)
-    meetup = Repo.preload meetup, invitation: from(i in Invitation, select: %{
+    meetup = Repo.all(from u in MeetupSchema, select: u)
+    meetup = Repo.preload meetup, invitations: from(i in InvitationSchema, select: %{
       "people_id" => i.people_id,
       "status" => i.status
       })
-    # meetup = MeetupSchema2
-    #   |> select([m], m)
-    #   |> Repo.all
-    # meetup = meetup |> Repo.preload(:invitation)
     { :ok, req } = :cowboy_req.reply 200, [], Poison.encode!(meetup), req
     { :ok, req, state }
   end
