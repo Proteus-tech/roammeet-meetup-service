@@ -33,7 +33,7 @@ config :meetup, Meetup.Repo, migration_source: "migrations"
 #     import_config "#{Mix.env}.exs"
 config :meetup, Meetup.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "postgres",
+  database: "meetup",
   username: "postgres",
   password: "123456",
   hostname: "roammeet-postgres-service",
