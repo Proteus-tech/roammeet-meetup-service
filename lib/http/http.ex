@@ -24,6 +24,7 @@ defmodule Meetup.HTTP do
           {"/meetup/:id", Meetup.HTTP.Meetup, []},
           {"/meetup/:id/invitations/status/:status", Meetup.HTTP.Meetup, []}, # Get All invite status from a meetup
           {"/meetup/:id/invitations", Meetup.HTTP.MeetupInvites, []}, # Send an invitation
+          {"/invitations", Meetup.HTTP.Invitations, []},
           {:_, Meetup.HTTP.NotFoundHandler, []},
         ]
       }
