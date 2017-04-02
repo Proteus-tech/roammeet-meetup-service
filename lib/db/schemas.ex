@@ -27,6 +27,7 @@ defmodule Meetup.Meetup do
   use Ecto.Schema
 
   # meetup is the DB table
+  @derive {Poison.Encoder, only: [:id, :name, :description, :start_date, :start_time, :invitation]}
   schema "meetup" do
     field :name, :string
     field :description, :string
@@ -41,6 +42,7 @@ defmodule Meetup.Invitation do
   use Ecto.Schema
 
   # invitation is the DB table
+  @derive {Poison.Encoder, only: [:id, :people_id, :status, :meetup]}
   schema "invitation" do
     field :people_id, :integer
     field :status, :boolean

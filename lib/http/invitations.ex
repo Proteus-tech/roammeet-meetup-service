@@ -4,6 +4,7 @@ defmodule Meetup.HTTP.Invitations do
 
   alias Meetup.Repo, as: Repo
   alias Meetup.Meetup, as: MeetupMeetup
+    alias Meetup.Invitation, as: Invitation
 
   def init({ _any, :http }, req, []) do
     { :ok, req, :undefined }
@@ -25,13 +26,16 @@ defmodule Meetup.HTTP.Invitations do
   end
 
   def get_handle(req, state) do
-    meetup = Repo.all(from u in MeetupMeetup, preload: [:invitation])
+    meetup = Repo.all(from u in MeetupMeetup, select: u)
+    meetup = Repo.preload meetup, invitation: from(i in Invitation, select: %{
+      "people_id" => i.people_id,
+      "status" => i.status
+      })
     # meetup = MeetupSchema2
     #   |> select([m], m)
     #   |> Repo.all
     # meetup = meetup |> Repo.preload(:invitation)
-    IO.inspect meetup
-    { :ok, req } = :cowboy_req.reply 200, [], "555", req
+    { :ok, req } = :cowboy_req.reply 200, [], Poison.encode!(meetup), req
     { :ok, req, state }
   end
 
