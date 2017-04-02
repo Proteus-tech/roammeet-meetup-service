@@ -11,3 +11,16 @@ defmodule Meetup.MeetupSchema do
     timestamps()
   end
 end
+
+defmodule Meetup.InvitationSchema do
+  use Ecto.Schema
+
+  # meetup is the DB table
+  schema "invitation" do
+    field :people, :string
+    field :meetup, :integer
+    field :status, :boolean
+
+    timestamps()
+  end
+end
