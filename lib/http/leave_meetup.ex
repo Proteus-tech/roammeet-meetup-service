@@ -1,4 +1,4 @@
-defmodule Meetup.HTTP.JoinMeetup do
+defmodule Meetup.HTTP.LeaveMeetup do
   @behaviour :cowboy_http_handler
   import Ecto.Query, only: [from: 2]
 
@@ -15,15 +15,15 @@ defmodule Meetup.HTTP.JoinMeetup do
     IO.puts method
     # IO.inspect map_data
     case method do
-      "PUT" ->
-        put_handle(req, state)
+      "DELETE" ->
+        delete_handle(req, state)
       _ ->
         { :ok, req } = :cowboy_req.reply 400, [], '-*-', req
         { :ok, req, state }
     end
   end
 
-  def put_handle(req, state) do
+  def delete_handle(req, state) do
     { id, _ } = :cowboy_req.binding(:id, req)
         |> elem(0)
         |> Integer.parse
@@ -37,19 +37,12 @@ defmodule Meetup.HTTP.JoinMeetup do
       mf = miss_fieldes(require_field, Map.keys(payload))
       if mf == [] do
         people_id = Map.get(payload, :people)
-        IO.puts people_id
+        # IO.puts people_id
         invitation = (from i in InvitationSchema, where: i.people_id == ^people_id)
-          |> Repo.one
-        if invitation != nil do
-          Ecto.Changeset.change(invitation, status: true)
-            |> Repo.update
+          |> Repo.delete_all
 
           status_code = 200
           data = Poison.encode!(payload)
-        else
-          status_code = 400
-          data = "You were not invited to this event."
-        end
       else
         status_code = 400
         data = Poison.encode!(mf)

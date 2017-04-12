@@ -44,21 +44,24 @@ defmodule Meetup.HTTP.Meetups do
     # Repo.insert!(meetup)
     { :ok, body, req } = :cowboy_req.body_qs(req)
     if body !== [] do
-      body = body |> List.first |> elem 0
-      body = Poison.decode!(body, keys: :atoms)
+      payload = body
+        |> List.first
+        |> elem(0)
+        |> Poison.decode!(keys: :atoms)
+
       require_field = [:name, :description, :start_date, :start_time]
-      mf = miss_fieldes(require_field, Map.keys(body))
+      mf = miss_fieldes(require_field, Map.keys(payload))
       if mf == [] do
-        IO.inspect body
+        IO.inspect payload
         meetup = %MeetupSchema{
-          name: Map.get(body, :name),
-          description: Map.get(body, :description),
-          start_date: Ecto.Date.cast!(Map.get(body, :start_date)),
-          start_time: Map.get(body, :start_time)
+          name: Map.get(payload, :name),
+          description: Map.get(payload, :description),
+          start_date: Ecto.Date.cast!(Map.get(payload, :start_date)),
+          start_time: Map.get(payload, :start_time)
         }
         Repo.insert!(meetup)
         status_code = 200
-        data = Poison.encode!(body)
+        data = Poison.encode!(payload)
       else
         status_code = 400
         data = Poison.encode!(mf)
